@@ -5,7 +5,6 @@ using namespace std;
 
 int main()
 {
-    setlocale(LC_ALL, "Russian");
     Rational a, b, c;
     Rational D, x1, x2;
 
