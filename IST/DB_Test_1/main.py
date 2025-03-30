@@ -40,7 +40,6 @@ cursor.execute("""
     )
 """)
 
-# Создание таблицы "store"
 cursor.execute("""
     CREATE TABLE IF NOT EXISTS store (
         store_id TEXT PRIMARY KEY,
@@ -49,10 +48,8 @@ cursor.execute("""
     )
 """)
 
-# Список файлов для обработки
 files = ["movement.txt", "product.txt", "store.txt"]
 
-# Чтение данных из файлов и вставка в соответствующие таблицы
 for file_path in files:
     if 'movement' in file_path.lower():
         table_name = "movement"
@@ -63,9 +60,8 @@ for file_path in files:
     else:
         continue
 
-    # Открытие файла и обработка строк
     with open(file_path, encoding='utf-8') as file:
-        file.readline()  # Пропускаем заголовок
+        file.readline()
         
         for line in file:
             processed_data = read_line(line, table_name)
