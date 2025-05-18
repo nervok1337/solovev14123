@@ -1,0 +1,1 @@
+SELECT SUM(amount * unit_price) AS total_revenue FROM OrderItems;
