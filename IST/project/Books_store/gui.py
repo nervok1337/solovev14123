@@ -5,7 +5,7 @@ class TabApp(ctk.CTk):
         super().__init__()
 
         self.title("Информационная система книжный магазин")
-        self.geometry("720x720")
+        self.geometry("1080x720")
         ctk.set_appearance_mode("dark")
         ctk.set_default_color_theme("blue")
 
@@ -751,47 +751,58 @@ class TabArea(ctk.CTkFrame):
         except Exception as e:
             messagebox.showerror("Ошибка", f"Не удалось получить выручку за месяц: {e}")
 
-
     def _build_table_view(self, parent):
         for widget in parent.winfo_children():
             widget.destroy()
 
-        ctk.CTkLabel(parent, text="Просмотр", font=ctk.CTkFont(size=20, weight="bold")).pack(pady=10)
-
-        canvas = tk.Canvas(parent, bg="#212121", highlightthickness=0)
-        scrollbar = tk.Scrollbar(parent, orient="vertical", command=canvas.yview)
-        canvas.configure(yscrollcommand=scrollbar.set)
-
-        frame_container = ctk.CTkFrame(canvas)
-        canvas.create_window((0, 0), window=frame_container, anchor="nw")
-
-        def on_configure(event):
-            canvas.configure(scrollregion=canvas.bbox("all"))
-
-        frame_container.bind("<Configure>", on_configure)
-
-        canvas.pack(side="left", fill="both", expand=True)
-        scrollbar.pack(side="right", fill="y")
+        ctk.CTkLabel(parent, text="Просмотр таблиц", font=ctk.CTkFont(size=20, weight="bold")).pack(pady=10)
 
         conn = sqlite3.connect("bookstore.db")
         cursor = conn.cursor()
         cursor.execute("SELECT name FROM sqlite_master WHERE type='table'")
         tables = [row[0] for row in cursor.fetchall()]
+        conn.close()
 
-        for table in tables:
-            ctk.CTkLabel(frame_container, text=f"\nТаблица: {table}", font=ctk.CTkFont(size=16, weight="bold")).pack(anchor="w", padx=20)
-            cursor.execute(f"PRAGMA table_info({table})")
+        # Меню выбора таблицы
+        table_combo = ctk.CTkOptionMenu(parent, values=tables)
+        table_combo.pack(pady=10)
+
+        # Область для таблицы
+        table_frame = ctk.CTkFrame(parent)
+        table_frame.pack(fill="both", expand=True, padx=10, pady=10)
+
+        def display_table(table_name):
+            # Очистить старое содержимое
+            for widget in table_frame.winfo_children():
+                widget.destroy()
+
+            conn = sqlite3.connect("bookstore.db")
+            cursor = conn.cursor()
+
+            cursor.execute(f"PRAGMA table_info({table_name})")
             columns = [col[1] for col in cursor.fetchall()]
-            cursor.execute(f"SELECT * FROM {table}")
-            rows = cursor.fetchall()
 
-            header = " | ".join(columns)
-            ctk.CTkLabel(frame_container, text=header, font=ctk.CTkFont(size=14, weight="bold")).pack(anchor="w", padx=20)
+            cursor.execute(f"SELECT * FROM {table_name}")
+            rows = cursor.fetchall()
+            conn.close()
+
+            tree = ttk.Treeview(table_frame, columns=columns, show="headings")
+            for col in columns:
+                tree.heading(col, text=col)
+                tree.column(col, width=100, anchor="center")
 
             for row in rows:
-                row_text = " | ".join(map(str, row))
-                ctk.CTkLabel(frame_container, text=row_text).pack(anchor="w", padx=20)
+                tree.insert("", "end", values=row)
 
+            tree.pack(side="left", fill="both", expand=True)
+
+            scrollbar = ttk.Scrollbar(table_frame, orient="vertical", command=tree.yview)
+            tree.configure(yscrollcommand=scrollbar.set)
+            scrollbar.pack(side="right", fill="y")
+
+        table_combo.configure(command=display_table)
+        table_combo.set(tables[0])
+        display_table(tables[0])
         conn.close()
 
 if __name__ == "__main__":
