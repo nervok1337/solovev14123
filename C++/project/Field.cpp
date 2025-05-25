@@ -1,6 +1,5 @@
 #include "Field.h"
 
-//Конструктор, определяет кол-во строк, кол-во колонок, кол-во мин
 Field::Field(int rows, int cols, int mineCount) {
 	this->rows = rows;
 	this->cols = cols;
@@ -18,7 +17,7 @@ Field::Field(int rows, int cols, int mineCount) {
 		}
 	}
 }
-//Деструктор, очичает игровое полк и удаляет Cell и Bomb
+
 Field::~Field() {
 	for (auto& row : field) {
 		for (auto& cellPtr : row) {
@@ -28,7 +27,7 @@ Field::~Field() {
 	}
 	field.clear();
 }
-//Рандомная генерация мин на поле
+
 void Field::generateMines(int safeX, int safeY) {
 	static bool seeded = false;
 	if (!seeded) {
@@ -156,14 +155,13 @@ void Field::display() const {
 
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 
-	const WORD colorDefault = 7;      // светло-серый (для пустых открытых)
-	const WORD colorHeader = 9;       // синий (для заголовков)
-	const WORD colorHidden = 2;       // зелёный (скрытые клетки)
-	const WORD colorNumber = 14;      // жёлтый (числа)
-	const WORD colorMine = 12;        // ярко-красный (бомбы)
-	const WORD colorFlag = 13;        // светло-красный / пурпурный (флаги)
+	const WORD colorDefault = 7;      // white-gray (for empty opened cells)
+	const WORD colorHeader = 9;       // blue (for headers)
+	const WORD colorHidden = 2;       // green (hidden cells)
+	const WORD colorNumber = 14;      // yellow (numbers)
+	const WORD colorMine = 12;        // red-bright (bombs)
+	const WORD colorFlag = 13;        // white-red / purple (flags)
 
-	// Заголовок столбцов
 	SetConsoleTextAttribute(hConsole, colorHeader);
 	cout << "   ";
 	for (int y = 0; y < cols; ++y) {
@@ -172,7 +170,6 @@ void Field::display() const {
 	cout << '\n';
 
 	for (int x = 0; x < rows; ++x) {
-		// Номер строки
 		SetConsoleTextAttribute(hConsole, colorHeader);
 		cout << setw(3) << x;
 
