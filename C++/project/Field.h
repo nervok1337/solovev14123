@@ -13,16 +13,16 @@ using namespace std;
 
 class Field{
 private:
-	int rows;
-	int cols;
-	int mineCount;
-	int openedCells;
+	int rows; //количество строк игрового поля
+	int cols; //количество столбцов игрового поля
+	int mineCount; //количество мин на поле
+	int openedCells; //количество уже открытых ячеек
 
-	vector<vector<Cell*>> field;
+	vector<vector<Cell*>> field; //двумерный вектор указателей на объекты Cell 
 
-	bool firstMove;
-	bool won;
-	bool gameOver;
+	bool firstMove; //флаг, указывающий, был ли сделан первый ход
+	bool won; //флаг победы
+	bool gameOver; //флаг окончания игры
 
 	void generateMines(int safeX, int safeY);
 	void calculateNeighbourMines();
