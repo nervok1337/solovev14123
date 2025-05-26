@@ -1,5 +1,6 @@
 #include "Field.h"
 
+//создаёт поле заданного размера, инициализирует ячейки объектами Cell, устанавливает начальные состояния
 Field::Field(int rows, int cols, int mineCount) {
 	this->rows = rows;
 	this->cols = cols;
@@ -17,7 +18,7 @@ Field::Field(int rows, int cols, int mineCount) {
 		}
 	}
 }
-
+//освобождает память, удаляя все объекты ячеек
 Field::~Field() {
 	for (auto& row : field) {
 		for (auto& cellPtr : row) {
@@ -28,6 +29,7 @@ Field::~Field() {
 	field.clear();
 }
 
+//рандомно размещает мины, избегая области вокруг координат safeX, safeY 
 void Field::generateMines(int safeX, int safeY) {
 	static bool seeded = false;
 	if (!seeded) {
@@ -52,6 +54,7 @@ void Field::generateMines(int safeX, int safeY) {
 	}
 }
 
+//подсчитывает количество мин вокруг каждой клетки, не являющейся миной
 void Field::calculateNeighbourMines() {
 	for (int x = 0; x < rows; x++) {
 		for (int y = 0; y < cols; y++) {
@@ -77,10 +80,12 @@ void Field::calculateNeighbourMines() {
 	}
 }
 
+//проверяет, находятся ли координаты внутри границ поля
 bool Field::inBounds(int x, int y) const {
 	return (0 <= x && x < rows) && (0 <= y && y < cols);
 }
 
+//рекурсивно открывает соседние клетки без мин
 void Field::openSafeCells(int x, int y) {
 	for (int dx = -1; dx <= 1; dx++) {
 		for (int dy = -1; dy <= 1; dy++) {
@@ -106,6 +111,7 @@ void Field::openSafeCells(int x, int y) {
 	}
 }
 
+//открывает клетку
 void Field::openCell(int x, int y) {
 	if (!inBounds(x, y) || gameOver)
 		return;
@@ -133,6 +139,7 @@ void Field::openCell(int x, int y) {
 		won = true;
 	}
 }
+//ставит или снимает флаг на клетке
 void Field::toggleFlag(int x, int y) {
 	if (!inBounds(x, y) || field[x][y]->getIsOpen())
 		return;
@@ -140,27 +147,27 @@ void Field::toggleFlag(int x, int y) {
 	field[x][y]->toggleFlag();
 }
 
+//возвращает, выиграна ли игра
 bool Field::isWon() const {
 	return won;
 }
+//возвращает, завершена ли игра
 bool Field::isGameOver() const {
 	return gameOver;
 }
 
-#include <windows.h>
-#include <iomanip>
-
+//отображает игровое поле в консоли
 void Field::display() const {
 	system("cls");
 
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 
-	const WORD colorDefault = 7;      // white-gray (for empty opened cells)
-	const WORD colorHeader = 9;       // blue (for headers)
-	const WORD colorHidden = 2;       // green (hidden cells)
-	const WORD colorNumber = 14;      // yellow (numbers)
-	const WORD colorMine = 12;        // red-bright (bombs)
-	const WORD colorFlag = 13;        // white-red / purple (flags)
+	const WORD colorDefault = 7;      // светло-серый (для пустых открытых ячеек)
+	const WORD colorHeader = 9;       // синий (для заголовков)
+	const WORD colorHidden = 2;       // зелёный (скрытые ячейки)
+	const WORD colorNumber = 14;      // жёлтый (числа)
+	const WORD colorMine = 12;        // ярко-красный (бомбы)
+	const WORD colorFlag = 13;        // светло-красный / фиолетовый (флаги)
 
 	SetConsoleTextAttribute(hConsole, colorHeader);
 	cout << "   ";
