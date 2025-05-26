@@ -1,13 +1,16 @@
 #include "GameSettings.h"
 
+//задаёт значения по умолчанию
 GameSettings::GameSettings() : rows(9), cols(9), mines(10) {}
 
+//конвертирует аргументы с консоли из строки в числа
 int toInt(const char* str, int defaultValue) {
     if (str == nullptr || *str == '\0')
         return defaultValue;
     return std::atoi(str);
 }
 
+//парсит аргументы командной строки
 void GameSettings::parseArguments(int argc, char* argv[]) {
     if (argc > 1) 
         rows = toInt(argv[1], rows);
