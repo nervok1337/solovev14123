@@ -3,9 +3,9 @@
 
 class Cell {
 private:
-	bool isOpen;
-	bool isFlagged;
-	int mineCount;
+	bool isOpen; //открыта ли ячейка
+	bool isFlagged; //стоит ли на ячейке флаг
+	int mineCount; //количество мин вокруг этой ячейки
 
 	void setMines(int count);
 public:
