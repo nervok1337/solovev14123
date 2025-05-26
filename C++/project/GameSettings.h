@@ -2,6 +2,7 @@
 #include <iostream>
 #include <cstdlib>
 
+//обрабатывает аргументы командной строки для установки пользовательских параметров
 class GameSettings {
 public:
     int rows;
