@@ -12,6 +12,8 @@ public:
     GameSettings();
 
     void parseArguments(int argc, char* argv[]);
+private:
+    int toInt(const char* str, int defaultValue);
 };
 #endif // !GAMESETTINGS_H
 
