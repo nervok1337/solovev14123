@@ -2,6 +2,8 @@
 #include <iostream>
 #include <cstdlib>
 
+int toInt(const char* str, int defaultValue);
+
 //обрабатывает аргументы командной строки для установки пользовательских параметров
 class GameSettings {
 public:
