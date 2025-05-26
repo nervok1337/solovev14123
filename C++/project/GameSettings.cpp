@@ -18,7 +18,7 @@ void GameSettings::parseArguments(int argc, char* argv[]) {
 
     int maxMines = (rows * cols) / 2;
     if (mines > maxMines) {
-        std::cout << "Слишком много мин! Установлено максимальное допустимое количество: " << maxMines << '\n';
+        std::cout << "You have detonated a mine! The maximum allowed number of attempts has been reached:" << maxMines << '\n';
         mines = maxMines;
     }
 
