@@ -1,0 +1,58 @@
+make.version /home/nervok/Programmer/C/2/RSTLite/codebase/superdarn/src.bin/tk/tool/map_addimf.1.18
+make.help
+./doc/map_addimf.doc.xml
+cc -fPIC -Wall -O3 -ansi -D_GNU_SOURCE -D_LINUX -D_SVGLIB_ -I/home/nervok/Programmer/C/2/RSTLite/include/base -I/home/nervok/Programmer/C/2/RSTLite/include/general -I/home/nervok/Programmer/C/2/RSTLite/include/superdarn -I/home/nervok/Programmer/C/2/RSTLite/dependencies/cdf33_0/include -I/home/nervok/Programmer/C/2/RSTLite/include/analysis -c ace.c    
+cc -fPIC -Wall -O3 -ansi -D_GNU_SOURCE -D_LINUX -D_SVGLIB_ -I/home/nervok/Programmer/C/2/RSTLite/include/base -I/home/nervok/Programmer/C/2/RSTLite/include/general -I/home/nervok/Programmer/C/2/RSTLite/include/superdarn -I/home/nervok/Programmer/C/2/RSTLite/dependencies/cdf33_0/include -I/home/nervok/Programmer/C/2/RSTLite/include/analysis -c wind.c    
+cc -fPIC -Wall -O3 -ansi -D_GNU_SOURCE -D_LINUX -D_SVGLIB_ -I/home/nervok/Programmer/C/2/RSTLite/include/base -I/home/nervok/Programmer/C/2/RSTLite/include/general -I/home/nervok/Programmer/C/2/RSTLite/include/superdarn -I/home/nervok/Programmer/C/2/RSTLite/dependencies/cdf33_0/include -I/home/nervok/Programmer/C/2/RSTLite/include/analysis -c locate.c    
+locate.c: In function ‘locate_files’:
+locate.c:221:29: warning: ‘__builtin___sprintf_chk’ may write a terminating nul past the end of the destination [-Wformat-overflow=]
+  221 |         sprintf(fname,"%s/%s",dir,flist[m]);
+      |                             ^
+In file included from /usr/include/stdio.h:980,
+                 from locate.c:34:
+In function ‘sprintf’,
+    inlined from ‘locate_files’ at locate.c:221:9:
+/usr/include/x86_64-linux-gnu/bits/stdio2.h:30:10: note: ‘__builtin___sprintf_chk’ output 2 or more bytes (assuming 257) into a destination of size 256
+   30 |   return __builtin___sprintf_chk (__s, __USE_FORTIFY_LEVEL - 1,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   31 |                                   __glibc_objsize (__s), __fmt,
+      |                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   32 |                                   __va_arg_pack ());
+      |                                   ~~~~~~~~~~~~~~~~~
+cc -fPIC -Wall -O3 -ansi -D_GNU_SOURCE -D_LINUX -D_SVGLIB_ -I/home/nervok/Programmer/C/2/RSTLite/include/base -I/home/nervok/Programmer/C/2/RSTLite/include/general -I/home/nervok/Programmer/C/2/RSTLite/include/superdarn -I/home/nervok/Programmer/C/2/RSTLite/dependencies/cdf33_0/include -I/home/nervok/Programmer/C/2/RSTLite/include/analysis -c map_addimf.c    
+map_addimf.c: In function ‘main’:
+map_addimf.c:363:7: warning: variable ‘j’ set but not used [-Wunused-but-set-variable]
+  363 |   int j,k;
+      |       ^
+map_addimf.c: In function ‘load_wind’:
+map_addimf.c:242:20: warning: ‘%s’ directive writing 4 bytes into a region of size between 0 and 255 [-Wformat-overflow=]
+  242 |   sprintf(path,"%s/%s",dpath,"wind");
+      |                    ^~        ~~~~~~
+In file included from /usr/include/stdio.h:980,
+                 from map_addimf.c:30:
+In function ‘sprintf’,
+    inlined from ‘load_wind’ at map_addimf.c:242:3:
+/usr/include/x86_64-linux-gnu/bits/stdio2.h:30:10: note: ‘__builtin___sprintf_chk’ output between 6 and 261 bytes into a destination of size 256
+   30 |   return __builtin___sprintf_chk (__s, __USE_FORTIFY_LEVEL - 1,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   31 |                                   __glibc_objsize (__s), __fmt,
+      |                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   32 |                                   __va_arg_pack ());
+      |                                   ~~~~~~~~~~~~~~~~~
+map_addimf.c: In function ‘load_ace’:
+map_addimf.c:273:20: warning: ‘%s’ directive writing 3 bytes into a region of size between 0 and 255 [-Wformat-overflow=]
+  273 |   sprintf(path,"%s/%s",dpath,"ace");
+      |                    ^~        ~~~~~
+In function ‘sprintf’,
+    inlined from ‘load_ace’ at map_addimf.c:273:3:
+/usr/include/x86_64-linux-gnu/bits/stdio2.h:30:10: note: ‘__builtin___sprintf_chk’ output between 5 and 260 bytes into a destination of size 256
+   30 |   return __builtin___sprintf_chk (__s, __USE_FORTIFY_LEVEL - 1,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   31 |                                   __glibc_objsize (__s), __fmt,
+      |                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   32 |                                   __va_arg_pack ());
+      |                                   ~~~~~~~~~~~~~~~~~
+mkdir -p /home/nervok/Programmer/C/2/RSTLite/bin
+cc -L/home/nervok/Programmer/C/2/RSTLite/lib -L/home/nervok/Programmer/C/2/RSTLite/usr/lib -o /home/nervok/Programmer/C/2/RSTLite/bin/map_addimf ace.o wind.o locate.o map_addimf.o -Wl,-Bstatic \
+                           -lcnvmap.1 -loldcnvmap.1 -lgrd.1 -loldgrd.1 -lradar.1 -lrcdf.1 -lgeopack.1 -ldmap.1 -lrfile.1 -lrtime.1 -lopt.1 -lrcnv.1 -L/home/nervok/Programmer/C/2/RSTLite/dependencies/cdf33_0/lib -lcdf  -Wl,-Bdynamic \
+                           -lm -lz   
